@@ -1,0 +1,76 @@
+<div class='filter'>
+  <%= form_tag '', {:remote => true} do |f| %>
+
+  <legend> Orders by product </legend>
+  <hr>
+
+    <table>
+      <tr>
+        <td class='header'> <label>Location</label> </td>
+        <td class='header'> <label>Terminal</label> </td>
+        <td class='header'> <label>Date</label> </td>
+      </tr>
+
+      <tr>
+        <td>
+          <%= select_tag 'locations',
+              options_for_select([['Any location', 'all']]) + 
+              options_from_collection_for_select(@locations,
+                                                 'id',
+                                                 'name')
+          %> 
+        </td>
+        <td>
+          <%= select_tag 'terminals',
+              options_for_select([['Any terminal', 'all']]) + 
+              options_from_collection_for_select(@terminals,
+                                                 'id',
+                                                 'name')
+          %> 
+        </td>
+        <td>
+          From
+            <%= text_field_tag :dateFrom,
+                  1.week.ago.strftime('%d/%m/%Y').to_s,
+            {:id => 'dateFrom'} %>
+          To
+            <%= text_field_tag :dateTo,
+                  Date.today.strftime('%d/%m/%Y').to_s,
+            {:id => 'dateTo'} %>
+        </td>
+
+      </tr>
+      <tr>
+        <td class='header'> <label>Category</label> </td>
+        <td class='header'> <label>Product</label> </td>
+      </tr>
+
+      <tr>
+        <td>
+          <%= select_tag 'categories',
+              options_for_select([['Any category', 'all']]) + 
+              options_from_collection_for_select(@categories,
+                                                 'id',
+                                                 'name')
+          %> 
+        </td>
+        <td>
+          <%= select_tag 'products',
+              options_for_select([['Any product', 'all']]) + 
+              options_from_collection_for_select(@products,
+                                                 'id',
+                                                 'name')
+          %> 
+        </td>
+      </tr>
+    </table>
+
+
+    <%= submit_tag('Search') %>
+
+    <% end %>
+
+</div>
+
+<div id='results'>
+</div>
